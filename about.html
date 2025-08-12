@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azozon - من نحن</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .breadcrumb{max-width:1100px;margin:12px auto 0;padding:0 16px;display:flex;gap:6px;color:#666;font-size:.95em}
+    .about-hero{max-width:1100px;margin:24px auto 12px;padding:0 16px;text-align:center}
+    .about-hero h1{margin:0 0 8px}
+    .about-sections{max-width:1100px;margin:0 auto;padding:0 16px 48px}
+    .about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:18px}
+    .card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+    .cta-bar{display:flex;gap:10px;justify-content:center;margin-top:22px}
+    .btn{background:#ff9900;color:#111;border:none;border-radius:10px;padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+    .btn.alt{background:#223043;color:#fff}
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <!-- Overlay + Drawer (يتم تعبئتهما من script.js) -->
+  <div class="overlay" onclick="closeDrawer()"></div>
+  <nav class="drawer"></nav>
+
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="index.html">الرئيسية</a>
+    <span>/</span>
+    <span aria-current="page">من نحن</span>
+  </nav>
+
+  <main class="main-content">
+    <section class="about-hero">
+      <h1>من نحن</h1>
+      <p>أوزوزون منصة تسوق رقمية تهدف إلى جعل تجربة الشراء أسهل وأسرع وأكثر أمانًا.</p>
+      <div class="cta-bar">
+        <a class="btn" href="video.html">شاهد الانترو</a>
+        <a class="btn alt" href="#contact">تواصل معنا</a>
+      </div>
+    </section>
+
+    <section class="about-sections">
+      <div class="about-grid">
+        <article class="card">
+          <h3>رؤيتنا</h3>
+          <p>تقديم تجربة تسوق سلسة تلبي احتياجات الجميع في أي وقت ومن أي مكان.</p>
+        </article>
+        <article class="card">
+          <h3>رسالتنا</h3>
+          <p>تمكين البائعين والمشترين عبر منصة آمنة وسريعة وبأسعار تنافسية.</p>
+        </article>
+        <article class="card">
+          <h3>قيمنا</h3>
+          <p>الشفافية – الجودة – السرعة – دعم العملاء.</p>
+        </article>
+      </div>
+
+      <h2 style="margin-top:28px">رحلتنا</h2>
+      <ul class="card" style="list-style:none;padding:16px;margin:10px 0 0">
+        <li>2023: إطلاق النسخة الأولى.</li>
+        <li>2024: تطوير الشحن والبنية التحتية.</li>
+        <li>2025: تجربة واجهة جديدة وتخصيص أفضل.</li>
+      </ul>
+
+      <h2 id="contact" style="margin-top:28px">تواصل معنا</h2>
+      <div class="card">
+        <p>يسعدنا تواصلك لأي اقتراح أو استفسار.</p>
+        <p>
+          البريد: <a href="mailto:support@azozon.local">support@azozon.local</a><br>
+          واتساب: <a href="https://wa.me/000000000000" target="_blank" rel="noopener">راسلنا</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script type="module" src="script.js"></script>
+  <script>
+    if (typeof window.createHeader === 'function') createHeader();
+    if (typeof window.createFooter === 'function') createFooter();
+  </script>
+</body>
+</html>

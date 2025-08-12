@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Prime Video</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root { --bg:#0c1117; --card:#0f1622; --text:#e6edf3; --muted:#9da7b3; --accent:#00a8e1; --prime:#00a8e1; --chip:#223043; }
+    html,body { background: var(--bg); color: var(--text); margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    header.header { position:sticky; top:0; z-index:10; }
+
+    /* Logo styling override to remove background and enlarge */
+    header .logo {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+      text-decoration: none;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      header .logo { font-size: 1.3rem; }
+    }
+
+    .container { max-width: 1320px; margin: 0 auto; padding: 18px; }
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 32px 0 12px 0;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #e6edf3;
+    }
+    .section-title-row .see-more {
+      color: #00a8e1;
+      font-size: 1em;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .video-row {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      margin-bottom: 40px;
+      scrollbar-width: thin;
+      scrollbar-color: #bbb #222b3a;
+    }
+    .video-row::-webkit-scrollbar { height: 10px; background: #222b3a;}
+    .video-row::-webkit-scrollbar-thumb { background: #bbb; border-radius: 6px;}
+    .video-card {
+      background: var(--card);
+      border-radius:14px;
+      min-width: 320px;
+      max-width: 340px;
+      width: 320px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+      margin:0;
+      flex:0 0 auto;
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      cursor:pointer;
+      transition: box-shadow .18s, transform .18s, z-index .18s;
+      z-index: 1;
+    }
+    .video-card:hover {
+      box-shadow: 0 14px 28px rgba(0,0,0,.45);
+      transform: scale(1.5) translateY(-2px);
+      z-index: 10;
+    }
+    .video-thumb { width:100%; height:180px; background-size:cover; background-position:center; border-radius:14px 14px 0 0;}
+    .badge-top {
+      position:absolute; top:12px; left:12px;
+      background:#e2edf7; color:#111; font-weight:700; font-size:13px; padding:6px 10px; border-radius:8px;
+      z-index:2;
+    }
+    .badge-prime {
+      position:absolute; bottom:12px; right:12px;
+      background: #223043; color: #00a8e1; font-size:13px; padding:4px 10px; border-radius:999px; font-weight:600;
+      display:flex; align-items:center; gap:6px;
+      z-index:2;
+    }
+    .video-title {
+      font-weight:700; font-size:18px; color:#fff; margin:14px 0 6px 0; padding:0 16px;
+      text-shadow:0 2px 8px rgba(0,0,0,.7);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    /* Modal styles */
+    .overlay { position:fixed; inset:0; background: rgba(0,0,0,.7); backdrop-filter: blur(2px); display:none; z-index:2000; }
+    .overlay.active { display:block; }
+    .modal {
+      position: fixed;
+      left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      width: min(520px, 96vw);
+      background:#0b1220;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+      outline:1px solid rgba(255,255,255,.06);
+      z-index: 2100;
+      color: #e6edf3;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .modal .modal-thumb {
+      width:100%; height:220px; background-size:cover; background-position:center; border-radius:16px 16px 0 0;
+    }
+    .modal .modal-content { padding:18px 22px 22px; }
+    .modal .modal-title { font-size:1.5em; font-weight:700; margin-bottom:8px; }
+    .modal .modal-meta { font-size:1em; color:#9da7b3; margin-bottom:10px; }
+    .modal .modal-desc { font-size:1.08em; margin-bottom:14px; color:#cbd5e1; }
+    .modal .modal-actions { display:flex; gap:10px; margin:12px 0;}
+    .modal .btn { background:#00a8e1; color:#041018; border:none; padding:10px 14px; font-weight:700; border-radius:10px; cursor:pointer;}
+    .modal .btn.secondary { background: #193044; color:#cfe9f7;}
+    .modal .close-btn { position:absolute; top:10px; right:10px; width:36px; height:36px; border-radius:50%; background:rgba(0,0,0,.55); color:#fff; border:none; cursor:pointer; z-index:2200;}
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <!-- Overlay for drawer -->
+  <div class="overlay" onclick="closeDrawer()"></div>
+  <!-- Drawer for menu (hidden by default, shown with .active) -->
+  <nav class="drawer">
+    <div class="drawer-header">
+      <div class="drawer-user">
+        <span class="user-icon">👤</span>
+        <span>Hello, sign in</span>
+      </div>
+      <button class="close-btn" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-content">
+      <div class="drawer-section"></div>
+      <div class="drawer-section"></div>
+      <div class="drawer-section"></div>
+      <div class="drawer-section"></div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="section-title-row">
+      <span>Comedy TV</span>
+      <a class="see-more" href="#">See more <span>›</span></a>
+    </div>
+    <div class="video-row" id="comedy-row"></div>
+    <div class="section-title-row">
+      <span>Popular now</span>
+      <a class="see-more" href="#">See more <span>›</span></a>
+    </div>
+    <div class="video-row" id="popular-row"></div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <div class="overlay" id="video-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="close-btn" id="close-modal" title="Close">✕</button>
+      <div class="modal-thumb" id="modal-thumb"></div>
+      <div class="modal-content">
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-meta" id="modal-meta"></div>
+        <div class="modal-desc" id="modal-desc"></div>
+        <div class="modal-actions">
+          <button class="btn" id="watch-btn"></button>
+          <button class="btn secondary" id="trailer-btn"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+  <script>
+    // Comedy TV and Popular now sample data
+    const comedyItems = [
+      { id:'panchayat', title:'Panchayat', img:'images/mov1.png', prime:true },
+      { id:'mrsmith', title:'mr. & mrs. smith', img:'images/mov2.png', prime:true },
+      { id:'bondsman', title:'The Bondsman', img:'images/mov3.png', prime:true },
+      { id:'genv', title:'GEN V', img:'images/mov4.png', prime:true },
+      { id:'modernlove', title:'Modern Love', img:'images/mov5.png', prime:true }
+    ];
+    const popularItems = [
+      { id:'pickup', title:'The Pickup', img:'images/mov1.png', prime:true, top10:true },
+      { id:'warworlds', title:'War of the Worlds', img:'images/mov2.png', prime:true, top10:true },
+      { id:'acc2', title:'The Accountant 2', img:'images/mov3.png', prime:true },
+      { id:'ideaofyou', title:'the idea of you', img:'images/mov4.png', prime:true }
+    ];
+
+    // Render video rows
+    function renderRow(rowId, items) {
+      const row = document.getElementById(rowId);
+      row.innerHTML = items.map(it => `
+        <div class="video-card" data-id="${it.id}">
+          <div class="video-thumb" style="background-image:url('${it.img}')"></div>
+          ${it.top10 ? `<div class="badge-top">TOP 10</div>` : ''}
+          ${it.prime ? `<div class="badge-prime"></div>` : ''}
+          <div class="video-title">${it.title}</div>
+        </div>
+      `).join('');
+    }
+    renderRow('comedy-row', comedyItems);
+    renderRow('popular-row', popularItems);
+
+    // Modal logic
+    const overlay = document.getElementById('video-overlay');
+    const modal = document.querySelector('.modal');
+    const closeBtn = document.getElementById('close-modal');
+    const modalThumb = document.getElementById('modal-thumb');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMeta = document.getElementById('modal-meta');
+    const modalDesc = document.getElementById('modal-desc');
+    const btnWatch = document.getElementById('watch-btn');
+    const btnTrailer = document.getElementById('trailer-btn');
+
+    function openModal(item) {
+      modalThumb.style.backgroundImage = `url('${item.img}')`;
+      modalTitle.textContent = item.title;
+      modalMeta.textContent = 'Watch with a free Prime trial • 2025 • TV-14';
+      modalDesc.textContent = 'Season 1 • The Devil brings Hub Halloran back from death to capture Hell\'s escaped demons, forcing him to...';
+      btnWatch.textContent = 'Watch now';
+      btnTrailer.textContent = 'Trailer';
+      overlay.classList.add('active');
+      modal.style.zIndex = '2100';
+      overlay.style.zIndex = '2000';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('comedy-row').addEventListener('click', function(e) {
+      const card = e.target.closest('.video-card');
+      if (!card) return;
+      const id = card.getAttribute('data-id');
+      const item = comedyItems.find(x => x.id === id);
+      if (item) openModal(item);
+    });
+    document.getElementById('popular-row').addEventListener('click', function(e) {
+      const card = e.target.closest('.video-card');
+      if (!card) return;
+      const id = card.getAttribute('data-id');
+      const item = popularItems.find(x => x.id === id);
+      if (item) openModal(item);
+    });
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e)=>{ if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof window.createHeader === 'function') window.createHeader();
+      if (typeof window.createFooter === 'function') window.createFooter();
+    });
+  </script>
+</body>
+</html>
+    const overlay = document.getElementById('video-overlay');
+    const closeBtn = document.getElementById('close-modal');
+    const vid = document.getElementById('preview-video');
+    const mTitle = document.getElementById('modal-title');
+    const mMeta  = document.getElementById('modal-meta');
+    const mChips = document.getElementById('modal-chips');
+    const mDesc  = document.getElementById('modal-desc');
+    const btnWatch = document.getElementById('watch-btn');
+    const btnTrailer = document.getElementById('trailer-btn');
+
+    btnWatch.textContent = `${L.watch} • prime`;
+    btnTrailer.textContent = L.trailer;
+
+    function openModal(it) {
+      mTitle.textContent = it.title;
+      mMeta.innerHTML = `
+        <span>${L.metaRank}</span>
+        <span>•</span>
+        <span>${it.year}</span>
+        <span>•</span>
+        <span>${Math.floor(it.mins/60)} ${L.hr} ${it.mins%60} ${L.dur}</span>
+        <span>•</span>
+        <span>${L.rating}: ${it.rating}</span>
+      `;
+      mChips.innerHTML = `
+        <span class="chip">Action</span>
+        <span class="chip">Thriller</span>
+        <span class="chip">HD</span>
+      `;
+      mDesc.textContent = L.desc;
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden','false');
+      // Bring modal to front and cover everything
+      document.querySelector('.modal').style.zIndex = '2100';
+      document.querySelector('#video-overlay').style.zIndex = '2000';
+      vid.currentTime = 0;
+      vid.muted = true;
+      vid.play().catch(()=>{});
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      overlay.setAttribute('aria-hidden','true');
+      vid.pause();
+      document.body.style.overflow = '';
+    }
+
+    grid.addEventListener('click', (e) => {
+      const card = e.target.closest('.video-card');
+      if (!card) return;
+      const id = card.getAttribute('data-id');
+      const it = items.find(x => x.id === id);
+      if (it) openModal(it);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e)=>{ if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+    window.addEventListener('DOMContentLoaded', function() {
+      // Inject header and footer from script.js
+      if (typeof window.createHeader === 'function') window.createHeader();
+      if (typeof window.createFooter === 'function') window.createFooter();
+    });
+  </script>
+</body>
+</html>
+          rating: 'تصنيف',
+          pg13: 'لمن +13',
+          desc: 'يجب أن يضع الخصمان خلافاتهما جانباً لإنقاذ الموقف في سباق مع الزمن.'
+        }
+      : {
+          title: 'Prime Video',
+          top10: 'TOP 10',
+          watch: 'Watch Now',
+          trailer: 'Watch trailer',
+          withPrime: 'Watch with a free Prime trial',
+          metaRank: '#10 in Saudi Arabia',
+          dur: 'min', hr: 'h',
+          rating: 'Rating',
+          pg13: 'PG-13',
+          desc: 'Two rivals must set aside their differences to save the day against the clock.'
+        };
+
+    // Sample catalog (poster made via gradients to avoid external assets)
+    const items = [
+      { id: 'heads',   title: 'Heads of State',     year: 2025, mins: 116, rating: L.pg13, top10:true,  img:'mov1.png' },
+      { id: 'acc2',    title: 'The Accountant 2',   year: 2025, mins: 122, rating: L.pg13, top10:true,  img:'mov2.png' },
+      { id: 'jack',    title: "Tom Clancy's Jack Ryan", year: 2024, mins: 128, rating: L.pg13, top10:false, img:'mov3.png' },
+      { id: 'goodboy', title: 'GOODBOY',            year: 2024, mins: 119, rating: L.pg13, top10:false, img:'mov4.png' },
+      { id: 'rings',   title: 'The Rings of Power', year: 2024, mins: 142, rating: L.pg13, top10:false, img:'mov5.png' },
+      { id: 'war',     title: 'War of the Worlds',  year: 2023, mins: 110, rating: L.pg13, top10:true,  img:'mov6.png' },
+      { id: 'pulse',   title: 'City Pulse',         year: 2022, mins: 101, rating: L.pg13, top10:false, img:'mov2.png' },
+      { id: 'shadow',  title: 'Shadow Runner',      year: 2022, mins: 97,  rating: L.pg13, top10:false, img:'mov3.png' }
+    ];
+
+    // Build cards
+    const grid = document.getElementById('video-grid');
+    const titleEl = document.getElementById('page-title');
+    titleEl.textContent = (typeof t === 'function') ? t('prime_video') : L.title;
+
+    // Build cards with your images
+    grid.innerHTML = items.map(it => `
+      <article class="video-card" data-id="${it.id}" aria-label="${it.title}">
+        <div class="video-thumb" style="background-image:url('../images/${it.img}')"></div>
+        ${it.top10 ? `<div class="badge-top">${L.top10}</div>` : ''}
+        <div class="bag">👜</div>
+        <div class="fade-bottom"></div>
+        <div class="card-info">
+          <div class="title">${it.title}</div>
+          <span class="badge-prime"></span>
+        </div>
+      </article>
+    `).join('');
+
+    // Preview modal logic
+    const overlay = document.getElementById('video-overlay');
+    const closeBtn = document.getElementById('close-modal');
+    const vid = document.getElementById('preview-video');
+    const mTitle = document.getElementById('modal-title');
+    const mMeta  = document.getElementById('modal-meta');
+    const mChips = document.getElementById('modal-chips');
+    const mDesc  = document.getElementById('modal-desc');
+    const btnWatch = document.getElementById('watch-btn');
+    const btnTrailer = document.getElementById('trailer-btn');
+
+    btnWatch.textContent = `${L.watch} • prime`;
+    btnTrailer.textContent = L.trailer;
+
+    function openModal(it) {
+      mTitle.textContent = it.title;
+      mMeta.innerHTML = `
+        <span>${L.metaRank}</span>
+        <span>•</span>
+        <span>${it.year}</span>
+        <span>•</span>
+        <span>${Math.floor(it.mins/60)} ${L.hr} ${it.mins%60} ${L.dur}</span>
+        <span>•</span>
+        <span>${L.rating}: ${it.rating}</span>
+      `;
+      mChips.innerHTML = `
+        <span class="chip">Action</span>
+        <span class="chip">Thriller</span>
+        <span class="chip">HD</span>
+      `;
+      mDesc.textContent = L.desc;
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden','false');
+      // Play muted trailer (re-using the intro video as a placeholder)
+      vid.currentTime = 0;
+      vid.muted = true;
+      vid.play().catch(()=>{});
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      overlay.setAttribute('aria-hidden','true');
+      vid.pause();
+      document.body.style.overflow = '';
+    }
+
+    grid.addEventListener('click', (e) => {
+      const card = e.target.closest('.video-card');
+      if (!card) return;
+      const id = card.getAttribute('data-id');
+      const it = items.find(x => x.id === id);
+      if (it) openModal(it);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e)=>{ if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeModal(); });
+    window.addEventListener('DOMContentLoaded', function() {
+      // Inject header and footer from script.js
+      if (typeof window.createHeader === 'function') window.createHeader();
+      if (typeof window.createFooter === 'function') window.createFooter();
+    });
+  </script>
+</body>
+</html>

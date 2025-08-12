@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Products</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#f7f7f7; }
+    header.header { position:sticky; top:0; z-index:10; }
+    header .logo {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+      text-decoration: none;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .products-title { margin: 24px 0; font-size: 28px; text-align: center; font-weight: bold; }
+    .products-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      margin-bottom: 40px;
+      scrollbar-width: thin;
+      scrollbar-color: #bbb #eee;
+    }
+    .products-grid::-webkit-scrollbar {
+      height: 10px;
+      background: #eee;
+    }
+    .products-grid::-webkit-scrollbar-thumb {
+      background: #bbb;
+      border-radius: 6px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 220px;
+      max-width: 320px;
+      width: 260px;
+      margin: 0;
+      flex: 0 0 auto;
+    }
+    .product-thumb { font-size: 54px; line-height: 1; margin: 6px 0 12px; }
+    .product-name { font-size: 18px; text-align: center; margin: 0 0 8px; font-weight: 600; }
+    .product-price { font-weight: 700; margin-bottom: 10px; font-size: 17px; }
+    .add-btn {
+      background: #ff9900;
+      border: none;
+      color: #111;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .add-btn:hover { background: #e68a00; }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .products-grid { gap: 12px; }
+      .product-card { min-width: 180px; max-width: 98vw; width: 80vw; }
+      header .logo { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <!-- Overlay for drawer -->
+  <div class="overlay" onclick="closeDrawer()"></div>
+  <!-- Drawer for menu -->
+  <nav class="drawer">
+    <div class="drawer-header">
+      <div class="drawer-user">
+        <span class="user-icon">👤</span>
+        <span>Hello, sign in</span>
+      </div>
+      <button class="close-btn" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-content">
+      <!-- Digital Content Section -->
+      <div class="drawer-section">
+        <h3>Digital Content & Devices</h3>
+        <ul class="drawer-menu">
+          <li><a href="video.html">Prime Video <span>›</span></a></li>
+          <li><a href="product-list.html?p=azozon_music">Azozon Music <span>›</span></a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Kindle E-readers & Books <span>›</span></a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Azozon Appstore <span>›</span></a></li>
+        </ul>
+      </div>
+      <!-- Shop by Department Section -->
+      <div class="drawer-section">
+        <h3>Shop by Department</h3>
+        <ul class="drawer-menu">
+          <li><a href="product-list.html?p=electronics">Electronics <span>›</span></a></li>
+          <li><a href="product-list.html?p=computers">Computers <span>›</span></a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Smart Home <span>›</span></a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Arts & Crafts <span>›</span></a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Fashion <span>›</span></a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Home & Garden <span>›</span></a></li>
+        </ul>
+      </div>
+      <!-- Programs & Features Section -->
+      <div class="drawer-section">
+        <h3>Programs & Features</h3>
+        <ul class="drawer-menu">
+          <li><a href="product-list.html?p=gift_cards">Gift Cards <span>›</span></a></li>
+          <li><a href="product-list.html?p=shop_interest">Shop By Interest</a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Azozon Live <span>›</span></a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">International Shopping <span>›</span></a></li>
+        </ul>
+      </div>
+      <!-- Help & Settings Section -->
+      <div class="drawer-section">
+        <h3>Help & Settings</h3>
+        <ul class="drawer-menu">
+          <li><a href="product-list.html?p=your_account">Your Account</a></li>
+          <li><a href="product-list.html?p=customer_service">Customer Service</a></li>
+          <li><a href="#" onclick="alert('سيتم إنشاء القسم قريباً')">Sign Out</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div id="products-root"></div>
+  </main>
+  <div id="footer-container"></div>
+  <script type="module" src="script.js"></script>
+  <script>
+    // Determine which dataset to show from ?p=KEY
+    const params = new URLSearchParams(location.search);
+    const key = params.get('p') || 'electronics';
+
+    // Small catalogs per supported key (first two links of each section)
+    const catalogs = {
+      prime_video: [
+        { name: 'Movie Pack HD', price: '$7.99', emoji: '🎬' },
+        { name: 'Series Bundle', price: '$9.99', emoji: '📺' },
+        { name: 'Kids Shows', price: '$4.99', emoji: '🧒' },
+        { name: 'Documentaries', price: '$5.99', emoji: '🎥' }
+      ],
+      azozon_music: [
+        { name: 'Premium Music 1M', price: '$5.99', emoji: '🎵' },
+        { name: 'Hi‑Fi Upgrade', price: '$3.00', emoji: '🎧' },
+        { name: 'Chill Mix', price: '$2.49', emoji: '🧊' },
+        { name: 'Workout Mix', price: '$2.49', emoji: '💪' }
+      ],
+      electronics: [
+        { name: 'Wireless Earbuds', price: '$39.99', emoji: '🎧' },
+        { name: 'Smartphone Holder', price: '$12.49', emoji: '📱' },
+        { name: 'Bluetooth Speaker', price: '$29.99', emoji: '🔊' },
+        { name: 'Action Camera', price: '$59.99', emoji: '📷' }
+      ],
+      computers: [
+        { name: 'Gaming Mouse', price: '$24.99', emoji: '🖱️' },
+        { name: 'Mechanical Keyboard', price: '$49.99', emoji: '⌨️' },
+        { name: 'USB-C Hub', price: '$19.99', emoji: '🔌' },
+        { name: '27" Monitor', price: '$149.00', emoji: '🖥️' }
+      ],
+      gift_cards: [
+        { name: 'Azozon Gift Card $25', price: '$25.00', emoji: '🎁' },
+        { name: 'Azozon Gift Card $50', price: '$50.00', emoji: '🎁' },
+        { name: 'Gamer Top-up', price: '$15.00', emoji: '🕹️' },
+        { name: 'Streaming Top-up', price: '$20.00', emoji: '📺' }
+      ],
+      shop_interest: [
+        { name: 'Eco‑friendly Kit', price: '$19.90', emoji: '🌿' },
+        { name: 'Pet Lovers Box', price: '$22.00', emoji: '🐾' },
+        { name: 'Travel Essentials', price: '$29.00', emoji: '🧳' },
+        { name: 'Photography Set', price: '$39.00', emoji: '📸' }
+      ],
+      your_account: [
+        { name: 'Prime Subscription', price: '$12.99', emoji: '⭐' },
+        { name: 'Extra Storage 100GB', price: '$1.99', emoji: '☁️' },
+        { name: 'Password Manager', price: '$2.99', emoji: '🔐' },
+        { name: 'Account Protection', price: '$3.99', emoji: '🛡️' }
+      ],
+      customer_service: [
+        { name: 'Protection Plan 1Y', price: '$9.99', emoji: '🛡️' },
+        { name: 'Fast Replacement', price: '$6.99', emoji: '⚡' },
+        { name: 'Tech Support Call', price: '$4.99', emoji: '📞' },
+        { name: 'Installation Service', price: '$19.99', emoji: '🧰' }
+      ]
+    };
+
+    // Build page (title is localized using t(key) from script.js)
+    const title = (typeof t === 'function') ? t(key) : 'Products';
+    const items = catalogs[key] || catalogs.electronics;
+    // Header/footer are created by script.js DOMContentLoaded; ensure grid renders after
+    window.addEventListener('DOMContentLoaded', function() {
+      window.renderProductsPage(title, items);
+    });
+
+    // Fix image paths for root folder
+    const productImages = {
+      prime_video: ['images/mov1.png', 'images/mov2.png', 'images/mov3.png', 'images/mov4.png'],
+      azozon_music: ['images/music1.png', 'images/music2.png', 'images/music3.png', 'images/music4.png'],
+      electronics: ['images/el1.png', 'images/el2.png', 'images/el3.png', 'images/el4.png'],
+      computers: ['images/pc1.png', 'images/pc2.png', 'images/pc3.png', 'images/pc4.png'],
+      gift_cards: ['images/gift1.png', 'images/gift2.png', 'images/gift3.png', 'images/gift4.png'],
+      shop_interest: ['images/int1.png', 'images/int2.png', 'images/int3.png', 'images/int4.png'],
+      your_account: ['images/acc1.png', 'images/acc2.png', 'images/acc3.png', 'images/acc4.png'],
+      customer_service: ['images/serv1.png', 'images/serv2.png', 'images/serv3.png', 'images/serv4.png']
+    };
+
+    window.addEventListener('DOMContentLoaded', function() {
+      // Inject images if available
+      if (productImages[key]) {
+        items.forEach((item, idx) => {
+          if (productImages[key][idx]) {
+            item.img = productImages[key][idx];
+          }
+        });
+      }
+      window.renderProductsPage(title, items);
+    });
+
+    // Modify renderProductsPage to use images if available
+    window.renderProductsPage = function(title, products) {
+      const root = document.getElementById('products-root');
+      if (!root) return;
+      root.innerHTML = `
+        <section class="products-page">
+          <h1 class="products-title">${title}</h1>
+          <div class="products-grid">
+            ${products.map(p => `
+              <article class="product-card">
+                ${p.img ? `<img src="${p.img}" alt="${p.name}" style="width:80px;height:80px;object-fit:contain;border-radius:10px;margin-bottom:12px;" />` : `<div class="product-thumb">${p.emoji || '🛒'}</div>`}
+                <h3 class="product-name">${p.name}</h3>
+                <div class="product-price">${p.price}</div>
+                <button class="add-btn" type="button">${typeof currentLanguage !== 'undefined' && currentLanguage==='ar'?'أضف للسلة':'Add to Cart'}</button>
+              </article>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    };
+  </script>
+</body>
+</html>

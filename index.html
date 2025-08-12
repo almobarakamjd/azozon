@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azozon - Your Shopping Destination</title>
+    <title>Azozon - وجهتك للتسوق</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,12 +13,12 @@
     <!-- Overlay -->
     <div class="overlay" onclick="closeDrawer()"></div>
 
-    <!-- Drawer -->
+    <!-- Drawer - content will be updated by JavaScript -->
     <nav class="drawer">
         <div class="drawer-header">
             <div class="drawer-user">
                 <span class="user-icon">👤</span>
-                <span>Hello, sign in</span>
+                <span>مرحبًا، سجل الدخول</span>
             </div>
             <button class="close-btn" onclick="closeDrawer()">✕</button>
         </div>
@@ -26,49 +26,22 @@
         <div class="drawer-content">
             <!-- Digital Content Section -->
             <div class="drawer-section">
-                <h3>Digital Content & Devices</h3>
-                <ul class="drawer-menu">
-                    <li><a href="#">Prime Video <span>›</span></a></li>
-                    <li><a href="#">Azozon Music <span>›</span></a></li>
-                    <li><a href="#">Kindle E-readers & Books <span>›</span></a></li>
-                    <li><a href="#">Azozon Appstore <span>›</span></a></li>
-                </ul>
+                <!-- Content will be updated by updateDrawerContent() -->
             </div>
 
             <!-- Shop by Department Section -->
             <div class="drawer-section">
-                <h3>Shop by Department</h3>
-                <ul class="drawer-menu">
-                    <li><a href="#">Electronics <span>›</span></a></li>
-                    <li><a href="#">Computers <span>›</span></a></li>
-                    <li><a href="#">Smart Home <span>›</span></a></li>
-                    <li><a href="#">Arts & Crafts <span>›</span></a></li>
-                    <li><a href="#">Fashion <span>›</span></a></li>
-                    <li><a href="#">Home & Garden <span>›</span></a></li>
-                </ul>
-                <button class="see-all-btn">See all ⌄</button>
+                <!-- Content will be updated by updateDrawerContent() -->
             </div>
 
             <!-- Programs & Features Section -->
             <div class="drawer-section">
-                <h3>Programs & Features</h3>
-                <ul class="drawer-menu">
-                    <li><a href="#">Gift Cards <span>›</span></a></li>
-                    <li><a href="#">Shop By Interest</a></li>
-                    <li><a href="#">Azozon Live <span>›</span></a></li>
-                    <li><a href="#">International Shopping <span>›</span></a></li>
-                </ul>
-                <button class="see-all-btn">See all ⌄</button>
+                <!-- Content will be updated by updateDrawerContent() -->
             </div>
 
             <!-- Help & Settings Section -->
             <div class="drawer-section">
-                <h3>Help & Settings</h3>
-                <ul class="drawer-menu">
-                    <li><a href="#">Your Account</a></li>
-                    <li><a href="#">Customer Service</a></li>
-                    <li><a href="#">Sign Out</a></li>
-                </ul>
+                <!-- Content will be updated by updateDrawerContent() -->
             </div>
         </div>
     </nav>
@@ -76,30 +49,84 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="hero-section">
-            <h1>Welcome to Azozon</h1>
-            <p>Your ultimate shopping destination - Everything you need, delivered fast!</p>
-            <p class="subtitle">Click the menu button to explore our categories</p>
+            <h1>مرحبًا بكم في أوزون</h1>
+            <p>وجهتك النهائية للتسوق - كل ما تحتاجه، يتم توصيله بسرعة!</p>
+            <p class="subtitle">انقر على زر القائمة لاستكشاف فئاتنا</p>
         </div>
         
         <div class="features-section">
             <div class="feature-card">
-                <h3>🚚 Fast Delivery</h3>
-                <p>Get your orders delivered quickly and safely</p>
+                <h3>🚚 توصيل سريع</h3>
+                <p>احصل على طلباتك بسرعة وأمان</p>
             </div>
             <div class="feature-card">
-                <h3>💳 Secure Payment</h3>
-                <p>Shop with confidence using our secure payment system</p>
+                <h3>💳 دفع آمن</h3>
+                <p>تسوق بثقة باستخدام نظام الدفع الآمن لدينا</p>
             </div>
             <div class="feature-card">
-                <h3>🎯 Best Deals</h3>
-                <p>Find amazing deals and discounts on millions of products</p>
+                <h3>🎯 أفضل العروض</h3>
+                <p>اكتشف عروض وخصومات مذهلة على ملايين المنتجات</p>
             </div>
         </div>
+        <!-- Intro video thumbnail -->
+        <div style="text-align:center;margin:36px 0;">
+          <button id="intro-thumb-btn" style="background:none;border:none;padding:0;cursor:pointer;">
+            <img src="images/intro.png" alt="شاهد الانترو" style="width:320px;max-width:90vw;border-radius:18px;box-shadow:0 4px 18px #000;transition:transform .18s;">
+            <div style="margin-top:-60px;position:relative;">
+              <span style="background:rgba(0,0,0,0.7);color:#fff;padding:12px 28px;border-radius:24px;font-size:1.3em;font-weight:bold;box-shadow:0 2px 8px #000;">▶ شاهد الانترو</span>
+            </div>
+          </button>
+        </div>
     </main>
+
+    <!-- Intro Video Overlay -->
+    <div id="intro-video-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
+      <video id="intro-video" src="videos/azozon.mp4" muted playsinline style="max-width:90vw;max-height:70vh;border-radius:18px;box-shadow:0 8px 32px #000;" preload="auto"></video>
+      <button id="skip-intro-btn" style="position:absolute;top:24px;right:32px;background:#223043;color:#fff;border:none;padding:10px 22px;font-size:1.2em;border-radius:8px;cursor:pointer;z-index:2;">تخطي</button>
+    </div>
 
     <!-- Footer will be loaded by JavaScript -->
     <div id="footer-container"></div>
 
     <script type="module" src="script.js"></script>
+    <script>
+      // Show intro video automatically on page load
+      function showIntroVideo() {
+        const overlay = document.getElementById('intro-video-overlay');
+        const video = document.getElementById('intro-video');
+        const skipBtn = document.getElementById('skip-intro-btn');
+        overlay.style.display = 'flex';
+        video.muted = true;
+        video.currentTime = 0;
+        video.play().catch(()=>{});
+
+        // Unmute on first user interaction
+        let unmuted = false;
+        function unmuteOnInteraction() {
+          if (!unmuted) {
+            video.muted = false;
+            unmuted = true;
+            video.volume = 0.5;
+            video.play().catch(()=>{});
+          }
+        }
+        ['mousemove','touchstart','pointerdown','keydown','wheel'].forEach(evt =>
+          window.addEventListener(evt, unmuteOnInteraction, { once:true, passive:true })
+        );
+
+        // Hide overlay on skip or video end
+        function closeIntro() {
+          overlay.style.display = 'none';
+          video.pause();
+        }
+        skipBtn.onclick = closeIntro;
+        video.onended = closeIntro;
+      }
+      // عرض الانترو تلقائياً عند تحميل الصفحة
+      window.addEventListener('DOMContentLoaded', showIntroVideo);
+
+      // إعادة عرض الانترو عند الضغط على الثمب
+      document.getElementById('intro-thumb-btn').onclick = showIntroVideo;
+    </script>
 </body>
 </html>
