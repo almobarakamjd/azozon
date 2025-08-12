@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azozon - Your Shopping Destination</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header will be loaded by JavaScript -->
+    <div id="header-container"></div>
+
+    <!-- Overlay -->
+    <div class="overlay" onclick="closeDrawer()"></div>
+
+    <!-- Drawer -->
+    <nav class="drawer">
+        <div class="drawer-header">
+            <div class="drawer-user">
+                <span class="user-icon">👤</span>
+                <span>Hello, sign in</span>
+            </div>
+            <button class="close-btn" onclick="closeDrawer()">✕</button>
+        </div>
+        
+        <div class="drawer-content">
+            <!-- Digital Content Section -->
+            <div class="drawer-section">
+                <h3>Digital Content & Devices</h3>
+                <ul class="drawer-menu">
+                    <li><a href="#">Prime Video <span>›</span></a></li>
+                    <li><a href="#">Azozon Music <span>›</span></a></li>
+                    <li><a href="#">Kindle E-readers & Books <span>›</span></a></li>
+                    <li><a href="#">Azozon Appstore <span>›</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Shop by Department Section -->
+            <div class="drawer-section">
+                <h3>Shop by Department</h3>
+                <ul class="drawer-menu">
+                    <li><a href="#">Electronics <span>›</span></a></li>
+                    <li><a href="#">Computers <span>›</span></a></li>
+                    <li><a href="#">Smart Home <span>›</span></a></li>
+                    <li><a href="#">Arts & Crafts <span>›</span></a></li>
+                    <li><a href="#">Fashion <span>›</span></a></li>
+                    <li><a href="#">Home & Garden <span>›</span></a></li>
+                </ul>
+                <button class="see-all-btn">See all ⌄</button>
+            </div>
+
+            <!-- Programs & Features Section -->
+            <div class="drawer-section">
+                <h3>Programs & Features</h3>
+                <ul class="drawer-menu">
+                    <li><a href="#">Gift Cards <span>›</span></a></li>
+                    <li><a href="#">Shop By Interest</a></li>
+                    <li><a href="#">Azozon Live <span>›</span></a></li>
+                    <li><a href="#">International Shopping <span>›</span></a></li>
+                </ul>
+                <button class="see-all-btn">See all ⌄</button>
+            </div>
+
+            <!-- Help & Settings Section -->
+            <div class="drawer-section">
+                <h3>Help & Settings</h3>
+                <ul class="drawer-menu">
+                    <li><a href="#">Your Account</a></li>
+                    <li><a href="#">Customer Service</a></li>
+                    <li><a href="#">Sign Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="hero-section">
+            <h1>Welcome to Azozon</h1>
+            <p>Your ultimate shopping destination - Everything you need, delivered fast!</p>
+            <p class="subtitle">Click the menu button to explore our categories</p>
+        </div>
+        
+        <div class="features-section">
+            <div class="feature-card">
+                <h3>🚚 Fast Delivery</h3>
+                <p>Get your orders delivered quickly and safely</p>
+            </div>
+            <div class="feature-card">
+                <h3>💳 Secure Payment</h3>
+                <p>Shop with confidence using our secure payment system</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎯 Best Deals</h3>
+                <p>Find amazing deals and discounts on millions of products</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be loaded by JavaScript -->
+    <div id="footer-container"></div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
